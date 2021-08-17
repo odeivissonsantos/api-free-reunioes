@@ -28,9 +28,11 @@ public class SalaModel {
 	private LocalDate data;
 	
 	@Column(nullable = false)
+	@JsonFormat(pattern = "HH:mm")
 	private String horaInicio;
 	
 	@Column(nullable = false)
+	@JsonFormat(pattern = "HH:mm")
 	private String horaTermino;
 	
 	
