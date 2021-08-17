@@ -28,12 +28,10 @@ public class SalaModel {
 	private LocalDate data;
 	
 	@Column(nullable = false)
-	@JsonFormat(pattern = "HH:mm")
-	private Time horaInicio;
+	private String horaInicio;
 	
 	@Column(nullable = false)
-	@JsonFormat(pattern = "HH:mm")
-	private Time horaTermino;
+	private String horaTermino;
 	
 	
 
@@ -41,7 +39,7 @@ public class SalaModel {
 		super();
 	}
 
-	public SalaModel(Integer id, String nome, LocalDate data, Time horaInicio, Time horaTermino) {
+	public SalaModel(Integer id, String nome, LocalDate data, String horaInicio, String horaTermino) {
 		super();
 		this.id = id;
 		this.nome = nome;
@@ -74,19 +72,19 @@ public class SalaModel {
 		this.data = data;
 	}
 
-	public Time getHoraInicio() {
+	public String getHoraInicio() {
 		return horaInicio;
 	}
 
-	public void setHoraInicio(Time horaInicio) {
+	public void setHoraInicio(String horaInicio) {
 		this.horaInicio = horaInicio;
 	}
 
-	public Time getHoraTermino() {
+	public String getHoraTermino() {
 		return horaTermino;
 	}
 
-	public void setHoraTermino(Time horaTermino) {
+	public void setHoraTermino(String horaTermino) {
 		this.horaTermino = horaTermino;
 	}
 
