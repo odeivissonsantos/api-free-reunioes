@@ -21,7 +21,6 @@ import com.odeivissonsantos.freereunioes.exception.ResourceNotFoundException;
 import com.odeivissonsantos.freereunioes.models.SalaModel;
 import com.odeivissonsantos.freereunioes.repositorys.SalaRepository;
 
-
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/salas")
@@ -52,16 +51,11 @@ public class SalaController {
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<SalaModel> atualizar(@PathVariable Integer id, 
-												@Valid @RequestBody SalaModel salaDetalhes) throws ResourceNotFoundException {
-		SalaModel sala = repository.findById(id)
-				.orElseThrow(() -> new ResourceNotFoundException("Não existe sala com este ID::" + id));
-		sala.setNome(sala.getNome());
-		sala.setData(sala.getData());
-		sala.setHoraInicio(sala.getHoraInicio());
-		sala.setHoraTermino(sala.getHoraTermino());
-		final SalaModel atualizar = repository.save(sala);
-		return ResponseEntity.ok(atualizar);
+	public ResponseEntity<Void> atualizar(@PathVariable Integer id,
+											@Valid @RequestBody SalaModel salaAtualizada) {
+		salaAtualizada.setId(id);
+		repository.save(salaAtualizada);
+		return ResponseEntity.noContent().build();
 	}
 	
 	@DeleteMapping("/{id}")

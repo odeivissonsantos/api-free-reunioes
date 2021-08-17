@@ -1,6 +1,5 @@
 package com.odeivissonsantos.freereunioes.models;
 
-import java.sql.Time;
 import java.time.LocalDate;
 
 import javax.persistence.Column;
