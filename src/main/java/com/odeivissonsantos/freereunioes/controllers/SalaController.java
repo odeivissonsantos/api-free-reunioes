@@ -51,7 +51,7 @@ public class SalaController {
 		return repository.save(sala);
 	}
 	
-	@PutMapping
+	@PutMapping("/{id}")
 	public ResponseEntity<SalaModel> atualizar(@PathVariable Integer id, 
 												@Valid @RequestBody SalaModel salaDetalhes) throws ResourceNotFoundException {
 		SalaModel sala = repository.findById(id)
@@ -64,7 +64,7 @@ public class SalaController {
 		return ResponseEntity.ok(atualizar);
 	}
 	
-	@DeleteMapping
+	@DeleteMapping("/{id}")
 	public Map<String, Boolean> deletar(@PathVariable Integer id)
 	throws ResourceNotFoundException{
 		SalaModel sala = repository.findById(id)
