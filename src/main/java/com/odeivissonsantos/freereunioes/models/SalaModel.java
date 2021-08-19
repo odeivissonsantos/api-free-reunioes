@@ -1,19 +1,21 @@
 package com.odeivissonsantos.freereunioes.models;
 
-import java.time.LocalDate;
+import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "sala")
-public class SalaModel {
+public class SalaModel implements Serializable {
+	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,31 +25,32 @@ public class SalaModel {
 	private String nome;
 	
 	@Column(nullable = false)
-	@JsonFormat(pattern = "dd/MM/yyyy")
-	private LocalDate data;
+	private String data;
 	
 	@Column(nullable = false)
-	@JsonFormat(pattern = "HH:mm")
 	private String horaInicio;
 	
 	@Column(nullable = false)
-	@JsonFormat(pattern = "HH:mm")
 	private String horaTermino;
 	
+	@OneToMany(cascade = CascadeType.ALL)
+	private List<Convidado> convidado;
 	
-
 	public SalaModel() {
-		super();
+
 	}
 
-	public SalaModel(Integer id, String nome, LocalDate data, String horaInicio, String horaTermino) {
-		super();
+	public SalaModel(Integer id, String nome, String data, String horaInicio, String horaTermino,
+			List<Convidado> convidado) {
 		this.id = id;
 		this.nome = nome;
 		this.data = data;
 		this.horaInicio = horaInicio;
 		this.horaTermino = horaTermino;
+		this.convidado = convidado;
 	}
+
+
 
 	public Integer getId() {
 		return id;
@@ -65,11 +68,11 @@ public class SalaModel {
 		this.nome = nome;
 	}
 
-	public LocalDate getData() {
+	public String getData() {
 		return data;
 	}
 
-	public void setData(LocalDate data) {
+	public void setData(String data) {
 		this.data = data;
 	}
 
@@ -89,10 +92,18 @@ public class SalaModel {
 		this.horaTermino = horaTermino;
 	}
 
+	public List<Convidado> getConvidado() {
+		return convidado;
+	}
+
+	public void setConvidado(List<Convidado> convidado) {
+		this.convidado = convidado;
+	}
+
 	@Override
 	public String toString() {
-		return "SalaModel [id=" + id + ", data=" + data + ", horaInicio=" + horaInicio + ", horaTermino=" + horaTermino
-				+ "]";
+		return "SalaModel [id=" + id + ", nome=" + nome + ", data=" + data + ", horaInicio=" + horaInicio
+				+ ", horaTermino=" + horaTermino + ", convidado=" + convidado + "]";
 	}
 	
 	
