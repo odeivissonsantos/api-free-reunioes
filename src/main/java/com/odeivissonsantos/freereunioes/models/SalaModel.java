@@ -1,6 +1,7 @@
 package com.odeivissonsantos.freereunioes.models;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -33,15 +34,17 @@ public class SalaModel implements Serializable {
 	@Column(nullable = false)
 	private String horaTermino;
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	private List<Convidado> convidado;
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "sala")
+	private List<Convidado> convidado = new ArrayList<>();
 	
 	public SalaModel() {
 
 	}
 
+
 	public SalaModel(Integer id, String nome, String data, String horaInicio, String horaTermino,
 			List<Convidado> convidado) {
+		super();
 		this.id = id;
 		this.nome = nome;
 		this.data = data;
@@ -49,8 +52,6 @@ public class SalaModel implements Serializable {
 		this.horaTermino = horaTermino;
 		this.convidado = convidado;
 	}
-
-
 
 	public Integer getId() {
 		return id;
@@ -96,9 +97,11 @@ public class SalaModel implements Serializable {
 		return convidado;
 	}
 
+
 	public void setConvidado(List<Convidado> convidado) {
 		this.convidado = convidado;
 	}
+
 
 	@Override
 	public String toString() {

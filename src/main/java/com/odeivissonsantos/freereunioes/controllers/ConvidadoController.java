@@ -54,10 +54,10 @@ public class ConvidadoController {
 		}
 	
 	@PostMapping
-	public Convidado criar(@RequestBody Integer sala_id, Convidado convidado) {
+	public Convidado criar(@RequestBody Integer id_sala, Convidado convidado) {
 		convidado.setId(null);
-		SalaModel sala = salaRepository.findById(sala_id).get();
-		convidado.setSala(sala);
+		SalaModel sal = salaRepository.findById(id_sala).get();
+		convidado.setSala(sal);
 		return repository.save(convidado);
 	}
 	
