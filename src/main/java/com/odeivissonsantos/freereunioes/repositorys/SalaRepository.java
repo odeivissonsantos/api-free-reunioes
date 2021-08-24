@@ -6,6 +6,6 @@ import org.springframework.stereotype.Repository;
 import com.odeivissonsantos.freereunioes.models.SalaModel;
 
 @Repository
-public interface SalaRepository extends JpaRepository<SalaModel, Integer> {
+public interface SalaRepository extends JpaRepository<SalaModel, Long> {
 
 }

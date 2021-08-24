@@ -1,6 +1,5 @@
 package com.odeivissonsantos.freereunioes.controllers;
 
-import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import com.odeivissonsantos.freereunioes.exception.ResourceNotFoundException;
 import com.odeivissonsantos.freereunioes.models.Convidado;
@@ -25,52 +23,50 @@ import com.odeivissonsantos.freereunioes.models.SalaModel;
 import com.odeivissonsantos.freereunioes.repositorys.ConvidadoRepository;
 import com.odeivissonsantos.freereunioes.repositorys.SalaRepository;
 
+import lombok.RequiredArgsConstructor;
+
 
 @RestController
 @CrossOrigin("*")
+@RequiredArgsConstructor
 @RequestMapping("/api/convidados")
 public class ConvidadoController {
 	
 	private final ConvidadoRepository repository;
 	private final SalaRepository salaRepository;
-	
-	public ConvidadoController(ConvidadoRepository repository, SalaRepository salaRepository) {
-		super();
-		this.repository = repository;
-		this.salaRepository = salaRepository;
-	}
 
+	
 	@GetMapping
 	public ResponseEntity<List<Convidado>> listarTodos() {
 		return ResponseEntity.ok().body(repository.findAll());
 	}
 	
 	@GetMapping("/{id}")
-	public ResponseEntity<Convidado> buscarPorId(@PathVariable Integer id)  throws ResourceNotFoundException {
+	public ResponseEntity<Convidado> buscarPorId(@PathVariable Long id)  throws ResourceNotFoundException {
 			Convidado convidado = repository.findById(id)
 					.orElseThrow(() -> new ResourceNotFoundException("Convidado não Encontrado::" + id));
-			URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(convidado.getId()).toUri();
-			return ResponseEntity.created(uri).body(convidado);
+			return ResponseEntity.ok().body(convidado);
 		}
 	
 	@PostMapping
-	public Convidado criar(@RequestBody Integer id_sala, Convidado convidado) {
-		convidado.setId(null);
-		SalaModel sal = salaRepository.findById(id_sala).get();
-		convidado.setSala(sal);
-		return repository.save(convidado);
+	public ResponseEntity<Convidado> criar(@RequestBody Convidado convidado) {
+		SalaModel sala = salaRepository.findById(convidado.getIdSala()).orElse(null);
+		
+			convidado.setSala(sala);
+			return ResponseEntity.ok().body(repository.save(convidado));
+		
+	      
 	}
 	
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> atualizar(@PathVariable Integer id,
+	public ResponseEntity<Convidado> atualizar(@PathVariable Long id,
 											@Valid @RequestBody Convidado convidadoAtualizado) {
 		convidadoAtualizado.setId(id);
-		repository.save(convidadoAtualizado);
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().body(repository.save(convidadoAtualizado));
 	}
 	
 	@DeleteMapping("/{id}")
-	public Map<String, Boolean> deletar(@PathVariable Integer id)
+	public Map<String, Boolean> deletar(@PathVariable Long id)
 	throws ResourceNotFoundException{
 		Convidado convidado = repository.findById(id)
 				.orElseThrow(() -> new ResourceNotFoundException("Convidado não encontrada com esse ID::" + id));
