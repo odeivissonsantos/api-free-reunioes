@@ -50,7 +50,9 @@ public class ConvidadoController {
 	
 	@PostMapping
 	public ResponseEntity<Convidado> criar(@RequestBody Convidado convidado) {
-		SalaModel sala = salaRepository.findById(convidado.getIdSala()).orElse(null);
+		
+		SalaModel sala = new SalaModel();
+				salaRepository.findById(convidado.getIdSala()).orElse(null);
 		
 			convidado.setSala(sala);
 			return ResponseEntity.ok().body(repository.save(convidado));
